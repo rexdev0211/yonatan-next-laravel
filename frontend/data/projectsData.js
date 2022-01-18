@@ -1,40 +1,90 @@
-const projectsData = {
+
+
+export const ProjectsData = {
   en: [
     {
-      title: 'A Search Engine',
-      description: `What if you could look up any information in the world? Webpages, images, videos
-      and more. Google has many features to help you find exactly what you're looking
-      for.`,
-      imgSrc: '/static/images/google.png',
-      href: 'https://www.google.com',
+      title: 'E-commerce shop',
+      description: `All functional e-commerce app.`,
+      stacks: ['Nextjs', 'strapi', 'paypal', 'tailwindcss', 'netlify', 'heroku'],
+      href: 'https://eldokkan.netlify.app/',
+      image: '/static/images/projects/eldokkan.png',
+      details: '/eldokkan',
+      hashBlur: "UER3TY4T~q~qIVIUtQ-;_Mx]D%M__M?bM{4n",
+      featured: true
     },
     {
-      title: 'The Time Machine',
-      description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-      to the desired date and press "Go". No more worrying about lost keys or
-      forgotten handphones with this simple yet affordable solution.`,
-      imgSrc: '/static/images/time-machine.jpg',
-      href: '/blog/the-time-machine',
+      title: 'Corona Dashboard',
+      description: `Simple dashboard for monitoring the covid-19 data around the globe.`,
+      stacks: ['Nextjs', 'css modules', 'vercel'],
+      href: 'https://corona-ar.vercel.app/',
+      image: '/static/images/projects/coronaApp.png',
+      hashBlur: "UER3TY4T~q~qIVIUtQ-;_Mx]D%M__M?bM{4n",
+      details: '/coronaApp',
+      featured: false
+    },
+    {
+      title: 'importable.net',
+      description: `Simple landing page for small cooperate`,
+      stacks: ['Nextjs', 'Tailwind css', 'vercel', 'sendGrid'],
+      href: 'https://importable.net/',
+      image: '/static/images/projects/eldokkan.png',
+      details: '/importable',
+      hashBlur: "UER3TY4T~q~qIVIUtQ-;_Mx]D%M__M?bM{4n",
+      featured: false
+    },
+    {
+      title: 'Personal Website/Portfolio',
+      description: `showcasing and blogging my development journey`,
+      stacks: ['Nextjs', 'tailwindcss', 'mdx', 'i18n'],
+      href: 'https://www.ahmedjadan.dev/',
+      image: '/static/images/projects/coronaApp.png',
+      details: '/ahmedjadandev',
+      hashBlur: "UER3TY4T~q~qIVIUtQ-;_Mx]D%M__M?bM{4n",
+      featured: false
     },
   ],
-  fr: [
+  ar: [
     {
-      title: 'Un moteur de recherche',
-      description: `Et si vous pouviez rechercher n'importe quelle information dans le monde ? Pages web, images, vidéos
-      et bien d'autres choses encore. Google propose de nombreuses fonctionnalités pour vous aider à trouver exactement ce que vous recherchez.
-      pour.`,
-      imgSrc: '/static/images/google.png',
-      href: 'https://www.google.com',
+      title: 'متجر الكتروني',
+      description: `متجر الكتروني مصغر بكامل وظائف الشراء والدفع أون لاين`,
+      stacks: ['Nextjs', 'strapi', 'paypal', 'tailwindcss', 'vercel', 'heroku'],
+      href: 'https://eldokkan.vercel.app/',
+      image: '/static/images/projects/eldokkan.png',
+      details: '/eldokkan',
+      hashBlur: "UER3TY4T~q~qIVIUtQ-;_Mx]D%M__M?bM{4n",
+      featured: true
     },
     {
-      title: 'La machine à remonter le temps',
-      description: `Imaginez que vous puissiez voyager dans le passé ou dans le futur. Il suffit de tourner le bouton
-      sur la date souhaitée et d'appuyer sur "Go". Plus besoin de se soucier des clés perdues ou des téléphones portables oubliés avec cette solution simple et abordable.
-      ou de téléphones portables oubliés grâce à cette solution simple et abordable.`,
-      imgSrc: '/static/images/time-machine.jpg',
-      href: '/blog/the-time-machine',
+      title: 'منصة كورونا بالعربي',
+      description: `Simple dashboard for monitoring the covid-19 data around the globe.`,
+      stacks: ['Nextjs', 'css modules', 'vercel'],
+      href: 'https://corona-ar.vercel.app/',
+      image: '/static/images/projects/coronaApp.png',
+      details: '/coronaApp',
+      hashBlur: "UER3TY4T~q~qIVIUtQ-;_Mx]D%M__M?bM{4n",
+      featured: false
+    },
+    {
+      title: 'importable.net | للاستيراد',
+      description: `Simple landing page for small cooperate`,
+      stacks: ['Nextjs', 'Tailwind css', 'vercel', 'sendGrid'],
+      href: 'https://importable.net/',
+      image: '/static/images/projects/eldokkan.png',
+      details: '/importable',
+      hashBlur: "UER3TY4T~q~qIVIUtQ-;_Mx]D%M__M?bM{4n",
+      featured: false
+    },
+    {
+      title: 'موقعي الشخصي',
+      description: `showcasing and blogging my development journey`,
+      stacks: ['Nextjs', 'tailwindcss', 'mdx', 'i18n'],
+      href: 'https://www.ahmedjadan.dev/',
+      image: '/static/images/projects/eldokkan.png',
+      details: '/ahmedjadandev',
+      hashBlur: "UER3TY4T~q~qIVIUtQ-;_Mx]D%M__M?bM{4n",
+      featured: false
     },
   ],
 }
 
-export default projectsData
+

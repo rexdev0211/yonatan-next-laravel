@@ -1,159 +1,121 @@
-import { bundleMDX } from 'mdx-bundler'
-import fs from 'fs'
-import matter from 'gray-matter'
-import path from 'path'
-import readingTime from 'reading-time'
-import { visit } from 'unist-util-visit'
-import getAllFilesRecursively from './utils/files'
-// Remark packages
-import remarkGfm from 'remark-gfm'
-import remarkFootnotes from 'remark-footnotes'
-import remarkMath from 'remark-math'
-import remarkCodeTitles from './remark-code-title'
-import remarkTocHeadings from './remark-toc-headings'
-import remarkImgToJsx from './remark-img-to-jsx'
-// Rehype packages
-import rehypeSlug from 'rehype-slug'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypeKatex from 'rehype-katex'
-import rehypePrismPlus from 'rehype-prism-plus'
-
-const root = process.cwd()
+const fs = require('fs');
+const path = require('path');
+import matter from 'gray-matter';
+import mdxPrism from 'mdx-prism';
+import renderToString from 'next-mdx-remote/render-to-string';
+import readingTime from 'reading-time';
+import MDXComponents from 'src/components/MDXComponents';
+import getAllFilesRecursively from './file';
+const root = process.cwd();
 
 export function getFiles(type, otherLocale = '') {
-  const prefixPaths = path.join(root, 'data', type)
+  const prefixPaths = path.join(root, 'data', type);
   const files =
     otherLocale === ''
-      ? getAllFilesRecursively(prefixPaths).filter((path) => (path.match(/\./g) || []).length === 1)
-      : getAllFilesRecursively(prefixPaths).filter((path) => path.includes(`.${otherLocale}.md`))
-
+      ? getAllFilesRecursively(prefixPaths).filter(
+          (path) => (path.match(/\./g) || []).length === 1
+        )
+      : getAllFilesRecursively(prefixPaths).filter((path) =>
+          path.includes(`.${otherLocale}.mdx`)
+        );
   // Only want to return blog/path and ignore root, replace is needed to work on Windows
-  return files.map((file) => file.slice(prefixPaths.length + 1).replace(/\\/g, '/'))
+  return files?.map((file) =>
+    file?.slice(prefixPaths.length + 1).replace(/\\/g, '/')
+  );
 }
 
+// return slug.replace(/\.(mdx|md)/, '')
 export function formatSlug(slug) {
-  // return slug.replace(/\.(mdx|md)/, '')
-  // take the main root of slug e.g. post-name in post-name.en.mdx
-  return slug.split('.')[0]
+  return slug.split('.')[0];
 }
 
 export function dateSortDesc(a, b) {
-  if (a > b) return -1
-  if (a < b) return 1
-  return 0
+  if (a > b) return -1;
+  if (a < b) return 1;
+  return 0;
 }
 
-// otherLocale === locale if locale !== defaultLocale
 export async function getFileBySlug(type, slug, otherLocale = '') {
   const [mdxPath, mdPath] =
     otherLocale === ''
-      ? [path.join(root, 'data', type, `${slug}.mdx`), path.join(root, 'data', type, `${slug}.md`)]
+      ? [
+          path.join(root, 'data', type, `${slug}.mdx`),
+          path.join(root, 'data', type, `${slug}.md`),
+        ]
       : [
           path.join(root, 'data', type, `${slug}.${otherLocale}.mdx`),
           path.join(root, 'data', type, `${slug}.${otherLocale}.md`),
-        ]
+        ];
 
   const source = fs.existsSync(mdxPath)
     ? fs.readFileSync(mdxPath, 'utf8')
-    : fs.readFileSync(mdPath, 'utf8')
+    : fs.readFileSync(mdPath, 'utf8');
 
-  // https://github.com/kentcdodds/mdx-bundler#nextjs-esbuild-enoent
-  if (process.platform === 'win32') {
-    process.env.ESBUILD_BINARY_PATH = path.join(
-      process.cwd(),
-      'node_modules',
-      'esbuild',
-      'esbuild.exe'
-    )
-  } else {
-    process.env.ESBUILD_BINARY_PATH = path.join(
-      process.cwd(),
-      'node_modules',
-      'esbuild',
-      'bin',
-      'esbuild'
-    )
-  }
-
-  let toc = []
-
-  const { frontmatter, code } = await bundleMDX(source, {
-    // mdx imports can be automatically source from the components directory
-    cwd: path.join(process.cwd(), 'components'),
-    xdmOptions(options) {
-      // this is the recommended way to add custom remark/rehype plugins:
-      // The syntax might look weird, but it protects you in case we add/remove
-      // plugins in the future.
-      options.remarkPlugins = [
-        ...(options.remarkPlugins ?? []),
-        [remarkTocHeadings, { exportRef: toc }],
-        remarkGfm,
-        remarkCodeTitles,
-        [remarkFootnotes, { inlineNotes: true }],
-        remarkMath,
-        remarkImgToJsx,
-      ]
-      options.rehypePlugins = [
-        ...(options.rehypePlugins ?? []),
-        rehypeSlug,
-        rehypeAutolinkHeadings,
-        rehypeKatex,
-        [rehypePrismPlus, { ignoreMissing: true }],
-      ]
-      return options
+  const { data, content } = matter(source);
+  const mdxContent = await renderToString(content, {
+    components: MDXComponents,
+    mdxOptions: {
+      remarkPlugins: [
+        require('remark-autolink-headings'),
+        require('remark-slug'),
+        require('remark-code-titles'),
+      ],
+      rehypePlugins: [mdxPrism],
     },
-    esbuildOptions: (options) => {
-      options.loader = {
-        ...options.loader,
-        '.js': 'jsx',
-      }
-      return options
-    },
-  })
-
+  });
+  //console.log('data', data);
   return {
-    mdxSource: code,
-    toc,
+    mdxContent,
     frontMatter: {
-      readingTime: readingTime(code),
+      wordCount: content.split(/\s+/gu).length,
+      readingTime: readingTime(content),
       slug: slug || null,
-      fileName: fs.existsSync(mdxPath) ? `${slug}.mdx` : `${slug}.md`,
-      ...frontmatter,
-      date: frontmatter.date ? new Date(frontmatter.date).toISOString() : null,
+      ...data,
     },
-  }
+  };
 }
 
-// otherLocale === locale if locale !== defaultLocale
 export async function getAllFilesFrontMatter(folder, otherLocale) {
-  const prefixPaths = path.join(root, 'data', folder)
+  const prefixPaths = path.join(root, 'data', folder);
 
+  //const allFiles = getAllFilesRecursively(prefixPaths)
   const files =
     otherLocale === ''
-      ? getAllFilesRecursively(prefixPaths).filter((path) => (path.match(/\./g) || []).length === 1)
-      : getAllFilesRecursively(prefixPaths).filter((path) => path.includes(`.${otherLocale}.md`))
+      ? getAllFilesRecursively(prefixPaths).filter(
+          (path) => (path.match(/\./g) || []).length === 1
+        )
+      : getAllFilesRecursively(prefixPaths).filter((path) =>
+          path.includes(`.${otherLocale}.mdx`)
+        );
 
-  // Check if the file exist in the otherlocale. If not, fallback to defaultLangage
-
-  const allFrontMatter = []
+  const allFrontMatter = [];
 
   files.forEach((file) => {
     // Replace is needed to work on Windows
-    const fileName = file.slice(prefixPaths.length + 1).replace(/\\/g, '/')
+    const fileName = file?.slice(prefixPaths.length + 1).replace(/\\/g, '/');
     // Remove Unexpected File
     if (path.extname(fileName) !== '.md' && path.extname(fileName) !== '.mdx') {
-      return
+      return;
     }
-    const source = fs.readFileSync(file, 'utf8')
-    const { data: frontmatter } = matter(source)
-    if (frontmatter.draft !== true) {
+
+    const source = fs.readFileSync(file, 'utf8');
+    const { data: frontmatter, content } = matter(source);
+    const mdxData = renderToString(content);
+
+    if (frontmatter) {
       allFrontMatter.push({
         ...frontmatter,
+        //mdxData,
         slug: formatSlug(fileName),
-        date: frontmatter.date ? new Date(frontmatter.date).toISOString() : null,
-      })
+        frontData: {
+          wordCount: content.split(/\s+/gu).length,
+          readingTime: readingTime(content),
+        },
+        date: frontmatter.date
+          ? new Date(frontmatter.date).toISOString()
+          : null,
+      });
     }
-  })
-
-  return allFrontMatter.sort((a, b) => dateSortDesc(a.date, b.date))
+  });
+  return allFrontMatter.sort((a, b) => dateSortDesc(a.date, b.date));
 }

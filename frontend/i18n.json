@@ -1,8 +1,8 @@
 {
-  "locales": ["en", "fr"],
+  "locales": ["en", "ar"],
   "defaultLocale": "en",
   "pages": {
-    "*": ["common", "headerNavLinks", "newsletter", "404", "SEO"],
+    "*": ["common", "navigation", "portfolio"],
     "/projects": ["projects"]
   }
 }

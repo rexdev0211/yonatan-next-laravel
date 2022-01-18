@@ -1,46 +1,33 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
-
 const nextTranslate = require('next-translate')
 
 module.exports = nextTranslate(
   withBundleAnalyzer({
-    reactStrictMode: true,
-    pageExtensions: ['js', 'jsx', 'md', 'mdx'],
-    eslint: {
-      dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
+    i18n: {
+      locales: ['en', 'ar'],
+      defaultLocale: 'en',
+      domains: [
+        {
+          domain: 'ahmedjadan.dev',
+          defaultLocale: 'en',
+        }
+      ]
     },
-    experimental: { esmExternals: true },
-    webpack: (config, { dev, isServer }) => {
-      config.module.rules.push({
-        test: /\.(png|jpe?g|gif|mp4)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              publicPath: '/_next',
-              name: 'static/media/[name].[hash].[ext]',
-            },
-          },
-        ],
-      })
-
-      config.module.rules.push({
-        test: /\.svg$/,
-        use: ['@svgr/webpack'],
-      })
-
-      if (!dev && !isServer) {
-        // Replace React with Preact only in client production build
-        Object.assign(config.resolve.alias, {
-          react: 'preact/compat',
-          'react-dom/test-utils': 'preact/test-utils',
-          'react-dom': 'preact/compat',
-        })
-      }
-
-      return config
+    images: {
+      deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     },
+    // webpack: (config, { isServer }) => {
+    //   // Fixes npm packages that depend on `fs` module
+    //   if (!isServer) {
+    //     config.node = {
+    //       fs: 'empty',
+    //     };
+    //   }
+
+    //   return config;
+    // }
   })
 )
+

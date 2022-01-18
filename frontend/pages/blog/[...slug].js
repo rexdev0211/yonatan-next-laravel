@@ -1,15 +1,27 @@
-import fs from 'fs'
-import PageTitle from '@/components/PageTitle'
-import generateRss from '@/lib/generate-rss'
-import { MDXLayoutRenderer } from '@/components/MDXComponents'
-import { formatSlug, getAllFilesFrontMatter, getFileBySlug, getFiles } from '@/lib/mdx'
+import hydrate from 'next-mdx-remote/hydrate';
+import { formatSlug, getAllFilesFrontMatter, getFileBySlug, getFiles } from '/lib/mdx';
+import MDXComponents from 'src/components/MDXComponents';
+import BlogLayout from 'src/Layout/BlogLayout';
+import React from 'react';
 
-const DEFAULT_LAYOUT = 'PostLayout'
+function Blog({ post, allPosts: frontMatter }) {
 
-export async function getStaticPaths({ locales, defaultLocale }) {
+  const { mdxContent } = post
+  const contents = hydrate(mdxContent, {
+    components: MDXComponents,
+  });
+
+  return <BlogLayout frontMatter={frontMatter}> {contents} </BlogLayout>;
+
+}
+
+export default React.memo(Blog)
+
+
+export async function getStaticPaths({ locales, defaultLocale, availableLocales }) {
   const localesPost = locales
     .map((locale) => {
-      const otherLocale = locale !== defaultLocale ? locale : ''
+      const otherLocale = locale !== defaultLocale ? locale : 'en'
       const posts = getFiles('blog', otherLocale)
       return posts.map((post) => [post, locale])
     })
@@ -26,62 +38,14 @@ export async function getStaticPaths({ locales, defaultLocale }) {
   }
 }
 
+
 export async function getStaticProps({ defaultLocale, locales, locale, params }) {
-  const otherLocale = locale !== defaultLocale ? locale : ''
+  const otherLocale = locale !== defaultLocale ? locale : 'en'
   const allPosts = await getAllFilesFrontMatter('blog', otherLocale)
-  const postIndex = allPosts.findIndex((post) => formatSlug(post.slug) === params.slug.join('/'))
-  const prev = allPosts[postIndex + 1] || null
-  const next = allPosts[postIndex - 1] || null
   const post = await getFileBySlug('blog', params.slug.join('/'), otherLocale)
-  const authorList = post.frontMatter.authors || ['default']
-  const authorPromise = authorList.map(async (author) => {
-    const authorResults = await getFileBySlug('authors', [author], otherLocale)
-    return authorResults.frontMatter
-  })
-  const authorDetails = await Promise.all(authorPromise)
 
-  // rss
-  const rss = generateRss(allPosts, locale, defaultLocale)
-  fs.writeFileSync(`./public/feed${otherLocale === '' ? '' : `.${otherLocale}`}.xml`, rss)
 
-  // Checking if available in other locale for SEO
-  const availableLocales = []
-  await locales.forEach(async (ilocal) => {
-    const otherLocale = ilocal !== defaultLocale ? ilocal : ''
-    const iAllPosts = await getAllFilesFrontMatter('blog', otherLocale)
-    iAllPosts.map((ipost) => {
-      if (ipost.slug === post.frontMatter.slug && ipost.slug !== '') availableLocales.push(ilocal)
-    })
-  })
-
-  return { props: { post, authorDetails, prev, next, availableLocales } }
+  return { props: { allPosts, post } }
 }
 
-export default function Blog({ post, authorDetails, prev, next, availableLocales }) {
-  const { mdxSource, toc, frontMatter } = post
-  return (
-    <>
-      {frontMatter.draft !== true ? (
-        <MDXLayoutRenderer
-          layout={frontMatter.layout || DEFAULT_LAYOUT}
-          toc={toc}
-          mdxSource={mdxSource}
-          frontMatter={frontMatter}
-          authorDetails={authorDetails}
-          prev={prev}
-          next={next}
-          availableLocales={availableLocales}
-        />
-      ) : (
-        <div className="mt-24 text-center">
-          <PageTitle>
-            Under Construction{' '}
-            <span role="img" aria-label="roadwork sign">
-              🚧
-            </span>
-          </PageTitle>
-        </div>
-      )}
-    </>
-  )
-}
+

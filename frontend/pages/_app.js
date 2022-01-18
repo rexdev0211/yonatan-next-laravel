@@ -1,24 +1,25 @@
-import '@/css/tailwind.css'
-import '@/css/prism.css'
+import '../styles/globals.css';
+import { useRouter } from 'next/router';
+import { ThemeProvider } from 'next-themes';
+import { useEffect } from 'react';
 
-import { ThemeProvider } from 'next-themes'
-import Head from 'next/head'
+function MyApp({ Component, pageProps }) {
+  const router = useRouter()
+  const { locale } = router
+  useEffect(() => {
+    let dir = locale == "ar" ? "rtl" : "ltr";
+    let lang = locale == "ar" ? "ar" : "en";
+    document.querySelector("html").setAttribute("dir", dir);
+    document.querySelector("html").setAttribute("lang", lang);
+  }, [locale]);
 
-import Analytics from '@/components/analytics'
-import LayoutWrapper from '@/components/LayoutWrapper'
-import RSS from '@/components/Rss'
-
-export default function App({ Component, pageProps }) {
   return (
-    <ThemeProvider attribute="class">
-      <Head>
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
-      </Head>
-      <Analytics />
-      <LayoutWrapper>
+    <>
+      <ThemeProvider attribute="class">
         <Component {...pageProps} />
-      </LayoutWrapper>
-      <RSS />
-    </ThemeProvider>
-  )
+      </ThemeProvider>
+    </>
+  );
 }
+
+export default MyApp;

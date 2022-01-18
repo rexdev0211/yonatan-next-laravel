@@ -1,23 +1,20 @@
-import { MDXLayoutRenderer } from '@/components/MDXComponents'
-import { getFileBySlug } from '@/lib/mdx'
+import Layout from 'src/Layout/Layout';
+import Head from '/src/components/Head';
+import InfoCard from '/src/components/InfoCard';
 
-const DEFAULT_LAYOUT = 'AuthorLayout'
-
-export async function getStaticProps({ locale, defaultLocale, locales }) {
-  const otherLocale = locale !== defaultLocale ? locale : ''
-  const authorDetails = await getFileBySlug('authors', [`sparrowhawk`], otherLocale)
-  return { props: { authorDetails, availableLocales: locales } }
-}
-
-export default function About({ authorDetails, availableLocales }) {
-  const { mdxSource, frontMatter } = authorDetails
-
+export default function about() {
   return (
-    <MDXLayoutRenderer
-      layout={frontMatter.layout || DEFAULT_LAYOUT}
-      mdxSource={mdxSource}
-      frontMatter={frontMatter}
-      availableLocales={availableLocales}
-    />
-  )
+    <Layout>
+      <Head
+        title="About"
+        description="Self-drifen Frontend Developer | Jamstack: Reactjs, Next.js, JavaScript, Tailwind CSS"
+
+        image="/static/meta.png"
+      />
+      <InfoCard />
+      <p>
+        I am a self-taught front-end programmer who focuses on building mobile-friendly and fast-loading websites. And I’m always happy integrating new technologies into my code, which is why my projects look so modern and stylish.
+      </p>
+    </Layout>
+  );
 }

@@ -1,41 +1,21 @@
-# Yonatan Frontend
+This is my personal website [Ahmed Jadan](https://www.ahmedjadan.dev/)
 
-## Features
+built using: 
 
-All of the main repo Features &
+- [Next.js](https://nextjs.org/)
+- [MDX](https://github.com/mdx-js/mdx)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Vercel](https://vercel.com)
 
-- Sub-path routing with locale(s)
+- i18n support for locales `ar`, `en`.
 
-- Multi-langage post support
+## folder structure
+- `/lib/mdx.js` read `.mdx` files and parse it to an `html` that `nextjs` can understand.
+- `/pages/blog/[...slug].js` render dynamic static pages for single blog posts. 
+- `/pages/blog.js` blog page containing the blog posts list. 
+- `/pages/portfolio/index.js` render the latest projects.
+- `/locales/*` namespace translation files for both `en, ar`, renders by [next-translate](https://www.npmjs.com/package/next-translate).
 
-- Optimized & flexible multi-locale SEO
+**Licince**: MIT
+- feel free to fork it and customize it based on your need, `appreciated if you give credit to the owner`.
 
-## Quick Start Guide
-
-This repository is furnished with `en` as defaultLocale and with `fr` as additional locale. You can provide as many locales as you want, you'll just add the corresponding translation.
-
-If you add a new translations in `locales` folder, please PR this repo. That might help next users / forks.
-
-1. Checkout the `demo/next-translate` branch on this repo. `Master` is kept up to date with [`timlrx/yonatan`](https://github.com/timlrx/yonatan)
-2. Add your own locales and default locale in `i18n.json`
-3. Add a folder for every locale in the `locales` folder.
-4. For each `.json` files (`404.json`, `common.json`, `headerNavLink.json`, ...) in your `/locales/[locale]` folder, provide a translation
-5. Complete `data/siteMetadata.js`, adding the localized version for certain field (like `title` or `description`, for example.)
-6. Complete the localization of `data/projectData.js`
-7. Voilà ! You're done !
-
-## Post
-
-To have localized version for post, please follow this naming convention:
-
-`myPost.md` : default locale
-
-`myPost.[locale].md`: additional locales
-
-Post can be provided in only one locale (that doesn't need to be defaultLocale).
-
-The API routes used in the newsletter component cannot be used in a static site export. You will need to use a form API endpoint provider and substitute the route in the newsletter component accordingly. Other hosting platforms such as Netlify also offer alternative solutions - please refer to their docs for more information.
-
-## Licence
-
-[MIT]
