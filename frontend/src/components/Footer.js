@@ -9,86 +9,51 @@ export default function Footer() {
   }, []);
   return (
     <footer>
-      <div className="mt-10  ">
-        <div className="flex items-center justify-center ">
-          <Link
-            href="https://twitter.com/a7medjadan"
-            rel="noopener noreferrer"
-            target="_blank"
-            prefetch={false}
-          >
-            <a>
-
-              <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-600 dark:text-gray-400 mx-2" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#9e9e9e" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
-              </svg>
-            </a>
-
-          </Link>
-          <Link
-            href="https://github.com/ahmedjadan"
-            rel="noopener noreferrer"
-            target="_blank"
-            prefetch={false}
-          >
-            <a className="">
-              <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-600 dark:text-gray-400" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#9e9e9e" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-              </svg>
-            </a>
-          </Link>
-          <Link
-            href="https://www.linkedin.com/in/ahmedjadan/"
-            rel="noopener noreferrer"
-            target="_blank"
-            prefetch={false}
-          >
-            <a>
-              <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-600 dark:text-gray-400 mx-2" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#9e9e9e" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <rect x="4" y="4" width="16" height="16" rx="2" />
-                <line x1="8" y1="11" x2="8" y2="16" />
-                <line x1="8" y1="8" x2="8" y2="8.01" />
-                <line x1="12" y1="16" x2="12" y2="11" />
-                <path d="M16 16v-3a2 2 0 0 0 -4 0" />
-              </svg>
-            </a>
-          </Link>
-          <Link
-            href={`mailto:hello@ahmedjadan.dev`}
-            rel="noopener noreferrer"
-            target="_blank"
-            title="Email"
-            as="mailto:hello@ahmedjadan.dev"
-          >
-            <a>
-              <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-600 dark:text-gray-400" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#9e9e9e" viewBox="0 0 24 24" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <rect x="3" y="5" width="18" height="14" rx="2" />
-                <polyline points="3 7 12 13 21 7" />
-              </svg>
-            </a>
-          </Link>
-        </div>
-        <div className="  py-2  w-full flex  items-center justify-center">
-          <p className="text-gray-600 dark:text-gray-400  text-center px-4 text-xs">
-            Made by:{' '}
-            <Link href="https://twitter.com/a7medjadan" prefetch={false}>
-              <a className="hover:underline text-indigo-400">Ahmed</a>
-            </Link>{' '}
-            using Nextjs, MDX and Tailwindcss
-          </p>
-        </div>
-        <div className="  p-2  w-full flex  items-center justify-center">
-          <p className="text-gray-600 dark:text-gray-400 mx-4 text-sm">
-            Ahmed Ja'dan - {year} &copy;
-          </p>
+      <div className="bg-neutral-800">
+        <div className="flex justify-end max-w-screen-xl mx-auto h-24">
+          <div className="flex items-center">
+            <Link
+              href="https://facebook.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <a className="mr-2.5 mb-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="35" width="35" viewBox="-204.79995 -341.33325 1774.9329 2047.9995">
+                  <path d="M1365.333 682.667C1365.333 305.64 1059.693 0 682.667 0 305.64 0 0 305.64 0 682.667c0 340.738 249.641 623.16 576 674.373V880H402.667V682.667H576v-150.4c0-171.094 101.917-265.6 257.853-265.6 74.69 0 152.814 13.333 152.814 13.333v168h-86.083c-84.804 0-111.25 52.623-111.25 106.61v128.057h189.333L948.4 880H789.333v477.04c326.359-51.213 576-333.635 576-674.373" fill="#262626"/>
+                  <path d="M948.4 880l30.267-197.333H789.333V554.609C789.333 500.623 815.78 448 900.584 448h86.083V280s-78.124-13.333-152.814-13.333c-155.936 0-257.853 94.506-257.853 265.6v150.4H402.667V880H576v477.04a687.805 687.805 0 00106.667 8.293c36.288 0 71.91-2.84 106.666-8.293V880H948.4" fill="#fff"/>
+                </svg>
+              </a>
+            </Link>
+            <Link
+              href="https://instagram.com"
+              rel="noopener noreferrer"
+              target="_blank"
+              prefetch={false}
+            >
+              <a className="mr-4">
+                <svg fill="#fff" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="20" height="20">
+                  <path d="M 16.5 5 C 10.16639 5 5 10.16639 5 16.5 L 5 31.5 C 5 37.832757 10.166209 43 16.5 43 L 31.5 43 C 37.832938 43 43 37.832938 43 31.5 L 43 16.5 C 43 10.166209 37.832757 5 31.5 5 L 16.5 5 z M 16.5 8 L 31.5 8 C 36.211243 8 40 11.787791 40 16.5 L 40 31.5 C 40 36.211062 36.211062 40 31.5 40 L 16.5 40 C 11.787791 40 8 36.211243 8 31.5 L 8 16.5 C 8 11.78761 11.78761 8 16.5 8 z M 34 12 C 32.895 12 32 12.895 32 14 C 32 15.105 32.895 16 34 16 C 35.105 16 36 15.105 36 14 C 36 12.895 35.105 12 34 12 z M 24 14 C 18.495178 14 14 18.495178 14 24 C 14 29.504822 18.495178 34 24 34 C 29.504822 34 34 29.504822 34 24 C 34 18.495178 29.504822 14 24 14 z M 24 17 C 27.883178 17 31 20.116822 31 24 C 31 27.883178 27.883178 31 24 31 C 20.116822 31 17 27.883178 17 24 C 17 20.116822 20.116822 17 24 17 z"/>
+                </svg>
+              </a>
+            </Link>
+            <Link
+              href="https://twitter.com"
+              rel="noopener noreferrer"
+              target="_blank"
+              prefetch={false}
+            >
+              <a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                  <g data-name="&lt;Group&gt;">
+                    <path fill="#fff" stroke="#303c42" stroke-linecap="round" stroke-linejoin="round" d="M2,3.5a13.62,13.62,0,0,0,10,5c-.26-1.06-.28-3.94,1.74-5.14A5.24,5.24,0,0,1,16.5,2.5,4.65,4.65,0,0,1,19.91,4a10.5,10.5,0,0,0,3-1.14,4.57,4.57,0,0,1-2,2.57,8.77,8.77,0,0,0,2.66-.66,9.3,9.3,0,0,1-2.38,2.43c.71,6.37-5,14.29-13.12,14.29a14.76,14.76,0,0,1-7.5-2,9.3,9.3,0,0,0,7-2,5.82,5.82,0,0,1-5-3.5c1,.32,1.95.48,2.5,0A5.41,5.41,0,0,1,1,9a3.51,3.51,0,0,0,2.5,1A5,5,0,0,1,2,3.5Z" data-name="&lt;Path&gt;"/>
+                  </g>
+                </svg>
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
       <ScrollTop />
-
     </footer>
   );
 }
